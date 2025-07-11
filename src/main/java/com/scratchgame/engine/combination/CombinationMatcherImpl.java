@@ -8,6 +8,11 @@ import java.util.*;
 
 public class CombinationMatcherImpl implements CombinationMatcher {
 
+    private static final String STANDARD = "standard";
+    private static final String SAME_SYMBOLS = "same_symbols";
+    private static final String LINEAR_SYMBOLS = "linear_symbols";
+    private static final String SPLIT_REGEX = ":";
+
     @Override
     public Map<String, List<String>> findWinningCombinations(Config config, String[][] matrix) {
         Map<String, Integer> symbolCounts = countStandardSymbols(config, matrix);
@@ -27,7 +32,7 @@ public class CombinationMatcherImpl implements CombinationMatcher {
             for (int j = 0; j < config.columns(); j++) {
                 String symbol = matrix[i][j];
                 SymbolConfig sc = config.symbols().get(symbol);
-                if (sc != null && "standard".equals(sc.type())) {
+                if (sc != null && STANDARD.equals(sc.type())) {
                     counts.merge(symbol, 1, Integer::sum);
                 }
             }
@@ -42,7 +47,7 @@ public class CombinationMatcherImpl implements CombinationMatcher {
                                      Map<String, Set<String>> groupsAppliedPerSymbol) {
 
         config.winCombinations().entrySet().stream()
-                .filter(entry -> "same_symbols".equals(entry.getValue().when()))
+                .filter(entry -> SAME_SYMBOLS.equals(entry.getValue().when()))
                 .sorted((a, b) -> Integer.compare(b.getValue().count(), a.getValue().count()))
                 .forEach(entry -> {
                     String winName = entry.getKey();
@@ -71,7 +76,7 @@ public class CombinationMatcherImpl implements CombinationMatcher {
                                   Map<String, Set<String>> groupsAppliedPerSymbol) {
 
         config.winCombinations().entrySet().stream()
-                .filter(entry -> "linear_symbols".equals(entry.getValue().when()))
+                .filter(entry -> LINEAR_SYMBOLS.equals(entry.getValue().when()))
                 .filter(entry -> entry.getValue().coveredAreas() != null)
                 .forEach(entry -> {
                     String winName = entry.getKey();
@@ -79,7 +84,7 @@ public class CombinationMatcherImpl implements CombinationMatcher {
 
                     winConfig.coveredAreas().forEach(area -> {
                         if (isValidLinearCombination(config, area, matrix)) {
-                            String[] firstCell = area.get(0).split(":");
+                            String[] firstCell = area.get(0).split(SPLIT_REGEX);
                             int row = Integer.parseInt(firstCell[0]);
                             int col = Integer.parseInt(firstCell[1]);
 
@@ -90,7 +95,7 @@ public class CombinationMatcherImpl implements CombinationMatcher {
                                 SymbolConfig symbolConfig = config.symbols().get(matchedSymbol);
 
                                 // Only apply to standard symbols
-                                if (symbolConfig != null && "standard".equals(symbolConfig.type())) {
+                                if (symbolConfig != null && STANDARD.equals(symbolConfig.type())) {
                                     Set<String> groupsForSymbol = groupsAppliedPerSymbol
                                             .computeIfAbsent(matchedSymbol, k -> new HashSet<>());
 
@@ -112,7 +117,7 @@ public class CombinationMatcherImpl implements CombinationMatcher {
             return false;
         }
 
-        String[] firstCell = area.get(0).split(":");
+        String[] firstCell = area.get(0).split(SPLIT_REGEX);
         int firstRow = Integer.parseInt(firstCell[0]);
         int firstCol = Integer.parseInt(firstCell[1]);
 
@@ -123,18 +128,18 @@ public class CombinationMatcherImpl implements CombinationMatcher {
 
         String firstSymbol = matrix[firstRow][firstCol];
         SymbolConfig firstSymbolConfig = config.symbols().get(firstSymbol);
-        if (firstSymbolConfig == null || !"standard".equals(firstSymbolConfig.type())) {
+        if (firstSymbolConfig == null || !STANDARD.equals(firstSymbolConfig.type())) {
             return false;
         }
 
         // Check all cells in area match the first symbol
         for (String cell : area) {
-            String[] coords = cell.split(":");
+            String[] coords = cell.split(SPLIT_REGEX);
             int row = Integer.parseInt(coords[0]);
             int col = Integer.parseInt(coords[1]);
 
             String symbol = matrix[Integer.parseInt(coords[0])][Integer.parseInt(coords[1])];
-            if (!symbol.equals(firstSymbol) || !"standard".equals(config.symbols().get(symbol).type())) {
+            if (!symbol.equals(firstSymbol) || !STANDARD.equals(config.symbols().get(symbol).type())) {
                 return false;
             }
 
@@ -150,7 +155,7 @@ public class CombinationMatcherImpl implements CombinationMatcher {
 
             // Check symbol type
             SymbolConfig currentConfig = config.symbols().get(matrix[row][col]);
-            if (currentConfig == null || !"standard".equals(currentConfig.type())) {
+            if (currentConfig == null || !STANDARD.equals(currentConfig.type())) {
                 return false;
             }
         }

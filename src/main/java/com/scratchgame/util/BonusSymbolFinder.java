@@ -1,4 +1,4 @@
-package com.scratchgame.utli;
+package com.scratchgame.util;
 
 import com.scratchgame.model.Config;
 import com.scratchgame.model.SymbolConfig;

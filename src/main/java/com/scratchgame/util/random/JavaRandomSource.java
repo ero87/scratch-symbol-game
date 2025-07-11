@@ -1,4 +1,4 @@
-package com.scratchgame.utli.random;
+package com.scratchgame.util.random;
 
 import java.util.Random;
 

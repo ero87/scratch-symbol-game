@@ -2,8 +2,8 @@ package com.scratchgame.engine.matrix;
 
 import com.scratchgame.model.CellProbability;
 import com.scratchgame.model.Config;
-import com.scratchgame.utli.random.JavaRandomSource;
-import com.scratchgame.utli.random.RandomSource;
+import com.scratchgame.util.random.JavaRandomSource;
+import com.scratchgame.util.random.RandomSource;
 
 import java.util.List;
 import java.util.Map;

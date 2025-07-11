@@ -3,12 +3,15 @@ package com.scratchgame.engine.reward;
 import com.scratchgame.model.Config;
 import com.scratchgame.model.SymbolConfig;
 import com.scratchgame.model.WinCombinationConfig;
-import com.scratchgame.utli.BonusSymbolFinder;
+import com.scratchgame.util.BonusSymbolFinder;
 
 import java.util.List;
 import java.util.Map;
 
 public class RewardCalculatorImpl implements RewardCalculator {
+
+    private static final String MULTIPLY_REWARD = "multiply_reward";
+    private static final String EXTRA_BONUS = "extra_bonus";
 
     @Override
     public double calculateReward(Config config,
@@ -49,9 +52,9 @@ public class RewardCalculatorImpl implements RewardCalculator {
         }
 
         SymbolConfig sc = config.symbols().get(bonusSymbol);
-        if ("multiply_reward".equals(sc.impact())) {
+        if (MULTIPLY_REWARD.equals(sc.impact())) {
             return currentReward * sc.rewardMultiplier();
-        } else if ("extra_bonus".equals(sc.impact())) {
+        } else if (EXTRA_BONUS.equals(sc.impact())) {
             return currentReward + sc.extra();
         }
         return currentReward;

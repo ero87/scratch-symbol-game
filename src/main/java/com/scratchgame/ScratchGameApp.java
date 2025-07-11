@@ -1,5 +1,11 @@
 package com.scratchgame;
 
+import com.scratchgame.engine.combination.CombinationMatcher;
+import com.scratchgame.engine.combination.CombinationMatcherImpl;
+import com.scratchgame.engine.matrix.MatrixGenerator;
+import com.scratchgame.engine.matrix.MatrixGeneratorImpl;
+import com.scratchgame.engine.reward.RewardCalculator;
+import com.scratchgame.engine.reward.RewardCalculatorImpl;
 import com.scratchgame.infrastructure.cli.ArgumentParser;
 import com.scratchgame.infrastructure.cli.CommandLineArgumentParser;
 import com.scratchgame.infrastructure.io.GameResultPrinter;
@@ -13,8 +19,12 @@ public class ScratchGameApp {
 
     public static void main(String[] args) {
         try {
+            final MatrixGenerator matrixGenerator = new MatrixGeneratorImpl();
+            final CombinationMatcher combinationMatcher = new CombinationMatcherImpl();
+            final RewardCalculator rewardCalculator = new RewardCalculatorImpl();
+
             GameConfiguration config = parseArguments(args);
-            GameEngine engine = new GameEngineImpl(config.config());
+            GameEngine engine = new GameEngineImpl(config.config(), matrixGenerator, combinationMatcher, rewardCalculator);
             GameResult result = engine.playGame(config.bettingAmount());
 
             GameResultPrinter printer = new JsonGameResultPrinter();

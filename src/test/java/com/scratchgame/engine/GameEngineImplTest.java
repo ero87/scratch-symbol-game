@@ -1,5 +1,11 @@
 package com.scratchgame.engine;
 
+import com.scratchgame.engine.combination.CombinationMatcher;
+import com.scratchgame.engine.combination.CombinationMatcherImpl;
+import com.scratchgame.engine.matrix.MatrixGenerator;
+import com.scratchgame.engine.matrix.MatrixGeneratorImpl;
+import com.scratchgame.engine.reward.RewardCalculator;
+import com.scratchgame.engine.reward.RewardCalculatorImpl;
 import com.scratchgame.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,7 +71,11 @@ class GameEngineImplTest {
         ));
 
         Config config = new Config(3, 3, symbols, probabilities, winCombinations);
-        gameEngine = new GameEngineImpl(config);
+
+        final MatrixGenerator matrixGenerator = new MatrixGeneratorImpl();
+        final CombinationMatcher combinationMatcher = new CombinationMatcherImpl();
+        final RewardCalculator rewardCalculator = new RewardCalculatorImpl();
+        gameEngine = new GameEngineImpl(config, matrixGenerator, combinationMatcher, rewardCalculator);
     }
 
     @Test
@@ -119,7 +129,11 @@ class GameEngineImplTest {
         Probabilities probabilities = new Probabilities(stdSymbols, bonusProbability);
 
         Config config = new Config(3, 3, symbols, probabilities, Collections.emptyMap());
-        GameEngineImpl noWinEngine = new GameEngineImpl(config);
+
+        final MatrixGenerator matrixGenerator = new MatrixGeneratorImpl();
+        final CombinationMatcher combinationMatcher = new CombinationMatcherImpl();
+        final RewardCalculator rewardCalculator = new RewardCalculatorImpl();
+        GameEngineImpl noWinEngine = new GameEngineImpl(config, matrixGenerator, combinationMatcher, rewardCalculator);
 
         GameResult result = noWinEngine.playGame(100.0);
         assertEquals(0.0, result.reward());

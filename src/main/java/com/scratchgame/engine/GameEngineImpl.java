@@ -1,15 +1,14 @@
 package com.scratchgame.engine;
 
 import com.scratchgame.engine.combination.CombinationMatcher;
-import com.scratchgame.engine.combination.CombinationMatcherImpl;
 import com.scratchgame.engine.matrix.MatrixGenerator;
-import com.scratchgame.engine.matrix.MatrixGeneratorImpl;
 import com.scratchgame.engine.reward.RewardCalculator;
-import com.scratchgame.engine.reward.RewardCalculatorImpl;
-import com.scratchgame.model.*;
-import com.scratchgame.utli.BonusSymbolFinder;
+import com.scratchgame.model.Config;
+import com.scratchgame.model.GameResult;
+import com.scratchgame.util.BonusSymbolFinder;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class GameEngineImpl implements GameEngine {
 
@@ -18,11 +17,14 @@ public class GameEngineImpl implements GameEngine {
     private final CombinationMatcher combinationMatcher;
     private final RewardCalculator rewardCalculator;
 
-    public GameEngineImpl(Config config) {
+    public GameEngineImpl(Config config,
+                          MatrixGenerator matrixGenerator,
+                          CombinationMatcher combinationMatcher,
+                          RewardCalculator rewardCalculator) {
         this.config = config;
-        this.matrixGenerator = new MatrixGeneratorImpl();
-        this.combinationMatcher = new CombinationMatcherImpl();
-        this.rewardCalculator = new RewardCalculatorImpl();
+        this.matrixGenerator = matrixGenerator;
+        this.combinationMatcher = combinationMatcher;
+        this.rewardCalculator = rewardCalculator;
     }
 
     @Override
