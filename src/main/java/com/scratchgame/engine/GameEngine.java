@@ -1,4 +1,4 @@
-package com.scratchgame.service;
+package com.scratchgame.engine;
 
 import com.scratchgame.model.GameResult;
 

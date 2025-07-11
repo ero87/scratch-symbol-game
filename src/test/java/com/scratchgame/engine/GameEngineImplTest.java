@@ -1,4 +1,4 @@
-package com.scratchgame.service;
+package com.scratchgame.engine;
 
 import com.scratchgame.model.*;
 import org.junit.jupiter.api.BeforeEach;

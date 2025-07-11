@@ -4,8 +4,8 @@ import com.scratchgame.infrastructure.cli.ArgumentParser;
 import com.scratchgame.infrastructure.cli.CommandLineArgumentParser;
 import com.scratchgame.infrastructure.io.GameResultPrinter;
 import com.scratchgame.infrastructure.io.JsonGameResultPrinter;
-import com.scratchgame.service.GameEngine;
-import com.scratchgame.service.GameEngineImpl;
+import com.scratchgame.engine.GameEngine;
+import com.scratchgame.engine.GameEngineImpl;
 import com.scratchgame.model.GameConfiguration;
 import com.scratchgame.model.GameResult;
 
