@@ -32,3 +32,8 @@ bin/
 
 # VS Code
 .vscode/
+
+# JSON config/output files (optional - include if you don’t want to track results or secrets)
+# Comment out if you want to keep config files in repo
+# config.json
+# *.output.json
